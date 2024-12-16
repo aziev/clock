@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@700&display=swap" rel="stylesheet">
+<style>
+    body {
+        overflow: hidden;
+        background: #222222;
+        color: #dddddd;
+        font-family: 'Geologica', sans-serif;
+        font-size: 400px;
+    }
+
+    #app {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+    }
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <div id="app">{{ currentTime }}</div>
+    <script>
+    const { createApp, ref, computed } = Vue
+
+    createApp({
+        setup() {
+            const getCurrentTime = () => {
+                const timeString = (new Date()).toTimeString()
+                const hhMmSs = timeString.split(' ')[0]
+
+                const split = hhMmSs.split(':')
+                split.pop()
+
+                const hhMm = split.join(':')
+
+                return hhMm
+            }
+
+            const currentTime = ref(getCurrentTime())
+
+            setInterval(() => {
+                currentTime.value = getCurrentTime()
+            }, 30 * 1000)
+
+            return {
+                currentTime
+            }
+        }
+    }).mount('#app')
+    </script>
+</body>
+</html>
